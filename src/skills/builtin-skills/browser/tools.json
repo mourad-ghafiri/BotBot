@@ -1,0 +1,219 @@
+{
+  "name": "browser",
+  "description": "Automate a Chromium browser for navigation, interaction, screenshots, and JS rendering. Use when the user needs to interact with a website, take a screenshot, fill a form, or access content requiring JavaScript.",
+  "tools": [
+    {
+      "name": "browser_open",
+      "description": "Navigate to a URL.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "URL to navigate to." }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "browser_click",
+      "description": "Click an element by CSS selector.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string", "description": "CSS selector." }
+        },
+        "required": ["selector"]
+      }
+    },
+    {
+      "name": "browser_type",
+      "description": "Type text into an element.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string", "description": "CSS selector." },
+          "text": { "type": "string", "description": "Text to type." },
+          "clear": { "type": "boolean", "description": "Clear field first." }
+        },
+        "required": ["selector", "text"]
+      }
+    },
+    {
+      "name": "browser_screenshot",
+      "description": "Take a screenshot of the page or element.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string", "description": "Optional CSS selector for element screenshot." },
+          "full_page": { "type": "boolean", "description": "Capture full page." }
+        }
+      }
+    },
+    {
+      "name": "browser_content",
+      "description": "Get text content of the page or element.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string", "description": "Optional CSS selector." }
+        }
+      }
+    },
+    {
+      "name": "browser_html",
+      "description": "Get HTML of the page or element.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string", "description": "Optional CSS selector." }
+        }
+      }
+    },
+    {
+      "name": "browser_eval",
+      "description": "Execute JavaScript on the page.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "script": { "type": "string", "description": "JavaScript code." }
+        },
+        "required": ["script"]
+      }
+    },
+    {
+      "name": "browser_scroll",
+      "description": "Scroll the page.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "direction": { "type": "string", "description": "up, down, left, or right.", "enum": ["up", "down", "left", "right"] },
+          "amount": { "type": "integer", "description": "Pixels to scroll (default 500)." }
+        }
+      }
+    },
+    {
+      "name": "browser_wait",
+      "description": "Wait for an element to appear.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string", "description": "CSS selector." },
+          "timeout": { "type": "integer", "description": "Timeout in ms." },
+          "state": { "type": "string", "description": "visible, hidden, attached, or detached." }
+        },
+        "required": ["selector"]
+      }
+    },
+    {
+      "name": "browser_back",
+      "description": "Navigate back.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "browser_forward",
+      "description": "Navigate forward.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "browser_refresh",
+      "description": "Refresh the page.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "browser_url",
+      "description": "Get current URL.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "browser_title",
+      "description": "Get page title.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "browser_tabs",
+      "description": "List open tabs.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "browser_newtab",
+      "description": "Open a new tab.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "URL to open (default about:blank)." }
+        }
+      }
+    },
+    {
+      "name": "browser_closetab",
+      "description": "Close a tab.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "index": { "type": "integer", "description": "Tab index to close. Omit for current." }
+        }
+      }
+    },
+    {
+      "name": "browser_select",
+      "description": "Select an option in a dropdown.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string" },
+          "value": { "type": "string" }
+        },
+        "required": ["selector"]
+      }
+    },
+    {
+      "name": "browser_hover",
+      "description": "Hover over an element.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "selector": { "type": "string" }
+        },
+        "required": ["selector"]
+      }
+    },
+    {
+      "name": "browser_cookies",
+      "description": "Get cookies.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "domain": { "type": "string", "description": "Optional domain filter." }
+        }
+      }
+    },
+    {
+      "name": "browser_setcookie",
+      "description": "Set a cookie.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" },
+          "domain": { "type": "string" },
+          "path": { "type": "string" }
+        },
+        "required": ["name", "value"]
+      }
+    },
+    {
+      "name": "browser_pdf",
+      "description": "Save page as PDF.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "Output path." }
+        }
+      }
+    },
+    {
+      "name": "browser_close",
+      "description": "Close the browser.",
+      "input_schema": { "type": "object", "properties": {} }
+    }
+  ]
+}

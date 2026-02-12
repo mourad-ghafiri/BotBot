@@ -1,0 +1,76 @@
+{
+  "name": "search",
+  "description": "Search the web, news, and images; scrape pages; extract structured data. Use when the user asks to look something up, find information, check current events, or get content from a URL.",
+  "tools": [
+    {
+      "name": "search_web",
+      "description": "Search the web using DuckDuckGo.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search query." },
+          "max_results": { "type": "integer", "description": "Max results (default 5)." }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "search_news",
+      "description": "Search news using DuckDuckGo.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search query." },
+          "max_results": { "type": "integer", "description": "Max results (default 5)." }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "search_images",
+      "description": "Search images using DuckDuckGo.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search query." },
+          "max_results": { "type": "integer", "description": "Max results (default 5)." }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "search_scrape",
+      "description": "Scrape a webpage and extract text content.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "URL to scrape." }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "search_extract",
+      "description": "Extract elements from a page using a CSS selector.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "URL to extract from." },
+          "selector": { "type": "string", "description": "CSS selector." }
+        },
+        "required": ["url", "selector"]
+      }
+    },
+    {
+      "name": "search_links",
+      "description": "Extract all links from a webpage.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "URL to extract links from." }
+        },
+        "required": ["url"]
+      }
+    }
+  ]
+}

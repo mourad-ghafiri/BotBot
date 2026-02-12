@@ -1,0 +1,99 @@
+{
+  "name": "skill_creator",
+  "description": "Create and manage custom skills so the bot can learn new capabilities. Use when a task requires a repeatable workflow the bot doesn't have yet, or when the user asks to create, update, list, or delete skills.",
+  "tools": [
+    {
+      "name": "skill_create",
+      "description": "Create a new custom skill with tools.json, SKILL.md, and an executable script. The skill becomes immediately available after creation.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Skill name (lowercase, a-z0-9, hyphens, underscores)." },
+          "description": { "type": "string", "description": "Short description of what the skill does and when to use it." },
+          "instructions": { "type": "string", "description": "Usage instructions in markdown — guidance for the LLM when the skill is activated." },
+          "tools": {
+            "type": "array",
+            "description": "Tool definitions for the skill. Each tool becomes callable after activation.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "Tool name (skill_name prefix recommended, e.g. myskill_run)." },
+                "description": { "type": "string", "description": "What the tool does." },
+                "input_schema": { "type": "object", "description": "JSON Schema for tool arguments." }
+              },
+              "required": ["name", "description", "input_schema"]
+            }
+          },
+          "script": { "type": "string", "description": "JavaScript source code implementing the tool handlers." },
+          "metadata": { "type": "object", "description": "Optional metadata." }
+        },
+        "required": ["name", "description", "instructions"]
+      }
+    },
+    {
+      "name": "skill_list",
+      "description": "List all custom (non-builtin) skills.",
+      "input_schema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "skill_get",
+      "description": "Get the definition of a skill (tools.json + SKILL.md content).",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Skill name." }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "skill_update",
+      "description": "Update a custom skill's description, instructions, tools, or script.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Skill name." },
+          "description": { "type": "string", "description": "New description." },
+          "instructions": { "type": "string", "description": "New instructions (replaces SKILL.md content)." },
+          "tools": {
+            "type": "array",
+            "description": "New tool definitions (replaces existing tools in tools.json).",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "input_schema": { "type": "object" }
+              },
+              "required": ["name", "description", "input_schema"]
+            }
+          },
+          "script": { "type": "string", "description": "New script (replaces existing)." },
+          "metadata": { "type": "object", "description": "Metadata to merge." }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "skill_delete",
+      "description": "Delete a custom skill.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Skill name." }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "skill_reload",
+      "description": "Reload one or all skills from disk. Use after manually editing skill files.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Skill name to reload. Omit to reload all skills." }
+        }
+      }
+    }
+  ]
+}

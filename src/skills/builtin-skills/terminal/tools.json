@@ -1,0 +1,61 @@
+{
+  "name": "terminal",
+  "description": "Execute shell commands, download files, install packages, and manage background processes. Use when the user asks to run a command, download a video/audio, install software, convert files, or any task requiring shell access.",
+  "tools": [
+    {
+      "name": "terminal_exec",
+      "description": "Run a shell command and return stdout/stderr.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "command": { "type": "string", "description": "Shell command to execute." },
+          "timeout": { "type": "integer", "description": "Max seconds (default 60)." }
+        },
+        "required": ["command"]
+      }
+    },
+    {
+      "name": "terminal_background",
+      "description": "Start a long-running command in the background.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "command": { "type": "string", "description": "Shell command to run in background." }
+        },
+        "required": ["command"]
+      }
+    },
+    {
+      "name": "terminal_output",
+      "description": "Get output from a background job.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "job_id": { "type": "string", "description": "The background job ID." }
+        },
+        "required": ["job_id"]
+      }
+    },
+    {
+      "name": "terminal_kill",
+      "description": "Terminate a background job.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "job_id": { "type": "string", "description": "The background job ID." }
+        },
+        "required": ["job_id"]
+      }
+    },
+    {
+      "name": "terminal_cwd",
+      "description": "Get or change the working directory.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "Directory to change to. Omit to get current directory." }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+# Config
+config.json
+# Dependencies and Cache
+node_modules/
+dist/
+workspace/
+.env
+*.js.map
+*.d.ts
+
+# Workspace runtime
+workspace/
+
+# WhatsApp auth
+.wwebjs_auth/
+.wwebjs_cache/
