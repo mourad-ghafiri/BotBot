@@ -141,7 +141,10 @@ export abstract class BaseOpenAIProvider implements ILLMProvider {
   }
 
   private parseResponse(response: any): LLMResponse {
-    const choice = response.choices[0];
+    const choice = response.choices?.[0];
+    if (!choice?.message) {
+      throw new Error(`LLM returned no choices. Response: ${JSON.stringify(response).slice(0, 500)}`);
+    }
     const message = choice.message;
 
     let toolCalls: ToolCall[] | undefined;
