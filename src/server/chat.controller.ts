@@ -41,13 +41,6 @@ export class ChatController {
     try {
       const result = await this.agentQueue.enqueue(
         { userMessage: body.message, channel: 'api', userId, priority: AgentJobPriority.INTERACTIVE },
-        {
-          onProgress: async (text: string) => {
-            if (!done) {
-              this.sendSSE(res, 'progress', { text });
-            }
-          },
-        },
       );
 
       if (!done) {

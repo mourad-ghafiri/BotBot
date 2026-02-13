@@ -6,10 +6,6 @@ import { AGENT_JOBS_QUEUE, AgentJobData, AgentJobResult } from './agent-job.type
 import { AgentProcessor } from './agent.processor';
 import { parseRedisUrl } from '../utils/redis';
 
-export interface EnqueueOptions {
-  onProgress?: (text: string) => Promise<void>;
-}
-
 interface PendingCaller {
   jobId: string;
   reject: (err: Error) => void;
@@ -38,7 +34,7 @@ export class AgentQueueService implements OnModuleInit, OnModuleDestroy {
     this.logger.log('AgentQueue ready');
   }
 
-  async enqueue(data: AgentJobData, options?: EnqueueOptions): Promise<AgentJobResult> {
+  async enqueue(data: AgentJobData): Promise<AgentJobResult> {
     const job = await this.queue.add('agent-run', data, {
       priority: data.priority,
       removeOnComplete: { count: 200 },
@@ -55,17 +51,7 @@ export class AgentQueueService implements OnModuleInit, OnModuleDestroy {
       }
       this.pendingCallers.get(userId)!.push(pending);
 
-      // Listen for progress events (intermediate text)
-      const progressHandler = ({ jobId, data: progressData }: { jobId: string; data: any }) => {
-        if (jobId === job.id && options?.onProgress && progressData?.text) {
-          options.onProgress(progressData.text).catch(() => {});
-        }
-      };
-
-      this.queueEvents.on('progress', progressHandler);
-
       const cleanup = () => {
-        this.queueEvents.removeListener('progress', progressHandler);
         const callers = this.pendingCallers.get(userId);
         if (callers) {
           const idx = callers.indexOf(pending);

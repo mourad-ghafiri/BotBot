@@ -67,7 +67,6 @@ export class AgentService {
     userMessage: string | ContentBlock[];
     userId?: string;
     channel?: string;
-    progressCallback?: (text: string) => Promise<void>;
     skipSecurity?: boolean;
     disableTaskTools?: boolean;
     activateAllSkills?: boolean;
@@ -75,7 +74,7 @@ export class AgentService {
     getToolSignal?: () => AbortSignal | undefined;
     priority?: number;
   }): Promise<AgentResult> {
-    const { userMessage, userId, channel, progressCallback, skipSecurity, disableTaskTools, activateAllSkills, signal } = params;
+    const { userMessage, userId, channel, skipSecurity, disableTaskTools, activateAllSkills, signal } = params;
 
     // Cancel any pending proactive follow-up on new user message
     if (this.proactiveEnabled && userId) {
@@ -177,13 +176,6 @@ export class AgentService {
       if (llmResponse.stopReason === 'tool_use' && llmResponse.message.toolCalls?.length) {
         history.push(llmResponse.message);
         if (userId) await this.conversationService.append(userId, llmResponse.message);
-
-        // Forward intermediate text — skip short narration fragments
-        const trimmed = assistantContent.trim();
-        const isNarration = trimmed.endsWith(':') || trimmed.length < 80 || /^(Let me|I'll|I will|Now |OK|Alright)/i.test(trimmed);
-        if (progressCallback && trimmed && !isNarration) {
-          try { await progressCallback(trimmed); } catch {}
-        }
 
         // Phase 1: Classify + dispatch
         const toolResults = new Map<string, { content: string; isError: boolean }>();

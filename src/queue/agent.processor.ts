@@ -50,9 +50,6 @@ export class AgentProcessor extends WorkerHost implements OnModuleInit, OnModule
         activateAllSkills: data.activateAllSkills,
         signal: ac.signal,
         getToolSignal: () => this.activeToolControllers.get(userId)?.signal,
-        progressCallback: async (text: string) => {
-          await job.updateProgress({ text });
-        },
       });
       return { text: result.text, files: result.files };
     } finally {

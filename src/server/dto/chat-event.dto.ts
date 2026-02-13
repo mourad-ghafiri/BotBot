@@ -1,5 +1,5 @@
 export interface ChatEvent {
-  event: 'status' | 'progress' | 'response' | 'error' | 'done';
+  event: 'status' | 'response' | 'error' | 'done';
   data: Record<string, any>;
 }
 

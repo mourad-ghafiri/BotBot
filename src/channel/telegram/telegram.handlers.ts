@@ -285,16 +285,9 @@ export class TelegramHandlers {
 
     if (typeof userMessage === 'string' && !userMessage) return;
 
-    // Typing indicator loop
-    const typingInterval = setInterval(() => {
-      ctx.replyWithChatAction('typing').catch(() => {});
-    }, 5000);
-    try { await ctx.replyWithChatAction('typing'); } catch {}
-
     try {
       const result = await this.agentQueue.enqueue(
         { userMessage, userId, channel: 'telegram', priority: AgentJobPriority.INTERACTIVE },
-        { onProgress: async (text: string) => { await this.sendTelegramMessage(ctx, text); } },
       );
 
       // Send final response
@@ -315,8 +308,6 @@ export class TelegramHandlers {
       try {
         await ctx.reply('Sorry, something went wrong while processing your message.');
       } catch {}
-    } finally {
-      clearInterval(typingInterval);
     }
   }
 

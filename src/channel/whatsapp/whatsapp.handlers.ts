@@ -45,11 +45,6 @@ export class WhatsAppHandlers {
     try {
       const result = await this.agentQueue.enqueue(
         { userMessage: text, channel: 'whatsapp', userId, priority: AgentJobPriority.INTERACTIVE },
-        {
-          onProgress: async (progressText: string) => {
-            await this.sendMessage(phoneNumber, progressText);
-          },
-        },
       );
 
       if (result.text) {
